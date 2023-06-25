@@ -1,0 +1,112 @@
+﻿@model InmobiliariaVaras.Models.Inmuebles
+
+@{
+    ViewData["Title"] = "Detalle Inmueble";
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<style>
+  .image img {
+  width: 220px;
+  height: auto;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+.my-form {
+  padding: 2.5rem;
+}
+</style>
+
+<h1>Detalles del Inmueble: @Model.dom_Inm</h1>
+
+<div class="container">
+    <div class="col-md-7">
+        <div class="form d-flex justify-content-between">
+            <div class="image">
+                @if (Model.imagen != "")
+                {
+                    <img src="@Model.imagen" height="100" width="100" style="margin: 20px 0 0 10px;border: 2px solid #fff;"/> 
+                }
+                else
+                {
+                    <p>Sin Foto</p>
+                }
+            </div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id_Inm)
+            </th>
+            <td>
+                @Model.id_Inm
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.dom_Inm)
+            </th>
+            <td>
+                @Model.dom_Inm
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.precio)
+            </th>
+            <td>
+                $ @Model.precio
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tipo)
+            </th>
+            <td>
+                @Model.tipo
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.uso)
+            </th>
+            <td>
+                @Model.uso
+            </td>
+        </tr>
+        @{
+            if(Model.disponible==1)
+            {
+                <tr>
+                    <td>
+                        <i class="fa fa-edit"></i>
+                        @Html.ActionLink("Editar", "Editar", new { id=Model.id_Inm})                
+                    </td>
+                    <td>
+                        <i class="fa fa-trash"></i>
+                        @Html.ActionLink("Eliminar", "Delete", new { id=Model.id_Inm}, new{ onclick = "return confirm('Eliminar Inmueble: " + @Model.dom_Inm +"?')" })
+                    </td>
+                </tr>
+            }
+        }
+    </table> 
+    </div>
+    </div>
+    <br>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+        @{
+            if(Model.disponible==1)
+            {
+                <a asp-action="Alta" asp-controller="Contratos" class="btn btn-primary">Contratar</a>
+            }
+        }
+        
+    </div>
+</div>
+} 

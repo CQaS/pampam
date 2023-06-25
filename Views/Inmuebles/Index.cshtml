@@ -1,0 +1,129 @@
+﻿@model IEnumerable<InmobiliariaVaras.Models.Inmuebles>
+
+@{
+    ViewData["Title"] = "Index Inmuebles";
+    List<Inmuebles> inmuebles = ViewData[nameof(Inmuebles)] as List<Inmuebles>;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h5>Buscar Inmuebles por fecha:</h5>
+<br>
+<form method="post" asp-action="BuscarPorFecha" class="form-inline">
+    <div class="form-group">
+        <label for="FechaInicio">Fecha desde:</label>
+        <input type="date" class="form-control" id="desde" name="FechaInicio">
+    </div>
+    &nbsp;
+    <div class="form-group">
+        <label for="FechaFin"> Fecha hasta:</label>
+        <input type="date" class="form-control" id="hasta" name="FechaFin">
+    </div>
+    &nbsp;
+    <button type="submit" class="btn btn-danger">Ver disponibles</button>       
+    
+</form>
+<br>
+
+<h1>@ViewBag.listaPorFecha</h1>
+
+<h1>@ViewBag.listaInmu</h1>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                <h5>
+                    @Html.DisplayNameFor(model => model.dom_Inm)
+                </h5>
+            </th>
+            <th>
+                <h5>
+                    @Html.DisplayNameFor(model => model.precio)
+                </h5>
+            </th> 
+            <th>
+                <h5>
+                    Propietario del Inmueble
+                </h5>
+            </th>         
+            <th>
+                <h5>
+                    Disponibilidad
+                </h5>
+            </th>         
+            <th class="text-center">
+                
+                <a asp-action="Alta" class="btn btn-primary"> Crear Inmuebles</a>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in inmuebles) {
+        
+        var dStyle = "";
+        var dText = "";
+        var check = "";
+        var dColor = "";
+        if(item.disponible==1)
+        {
+            dStyle = "display:;";
+            dText="Disponible";
+            check="checked";
+            dColor="white";                    
+                                
+        }
+        else
+        {
+            dStyle = "display:none;";
+            dText = "No Disponible";
+            check="";
+            dColor="orangered";
+        }
+            
+        <tr style="background-color: @dColor;" id="@Html.DisplayFor(modelItem => item.id_Inm)c">
+            <td>
+                @Html.DisplayFor(modelItem => item.dom_Inm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.precio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duenio.nombre)
+                
+            </td>            
+            <td>
+                <div class="form-check">
+                    <input class="form-check-input" OnClick="Disponible(@Html.DisplayFor(modelItem => item.id_Inm))" type="checkbox" value="" id="dis" @check>
+                    <label class="form-check-label" id="@Html.DisplayFor(modelItem => item.id_Inm)d">
+                        @dText
+                    </label>
+                </div>                                
+            </td>            
+            <td id="@Html.DisplayFor(modelItem => item.id_Inm)" style="@dStyle">                
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=item.id_Inm}) |
+                <i class="fa fa-info-circle"></i>
+                @Html.ActionLink("Detalles", "Detalles", new { id=item.id_Inm}) |
+				<i class="fa fa-book"></i>
+                @Html.ActionLink("VerContratos", "VerContratos", new { id=item.id_Inm}) |
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.id_Inm}, new { onclick = "return confirm('Eliminar Inmueble de: " + @item.Duenio.nombre + "?')" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@if(String.IsNullOrEmpty(ViewBag.listaPorFecha))
+    {
+        <p>
+            <a asp-action="Alta" class="btn btn-primary">Crear Inmuebles</a>
+        </p>
+    }
+ }

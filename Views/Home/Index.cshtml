@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Bienvenido";
+ }
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+ <div class="text-center">
+    <h1 class="display-4">Servicios Inmobiliarios Varas</h1>
+</div>
+
+<div class="row">
+    <div class="col"></div>
+    <div class="col-8">
+        <img style="box-shadow: 10px 10px 10px #999;" class="img-fluid" src="/img/portadaInmo.jpg" />
+    </div>
+    <div class="col"></div>
+</div>
+ }
+
+
+

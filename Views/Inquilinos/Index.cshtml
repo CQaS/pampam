@@ -1,0 +1,128 @@
+@model IEnumerable<InmobiliariaVaras.Models.Inquilinos>
+
+@{
+    ViewData["Title"] = "Index Inquilinos";
+    List<Inquilinos> Inquilinos = ViewData[nameof(Inquilinos)] as List<Inquilinos>; // tabla con una lista de Inq
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+<h1> Inquilinos Actuales</h1>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre_Inq)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dom_Inq)
+            </th>          
+            <th>
+                
+                    <a asp-action="Alta" class="btn btn-primary"> Crear Nuevo </a>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Inquilinos) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre_Inq)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dom_Inq)
+            </td>
+            <td>
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=item.id_Inq}) |
+                <i class="fa fa-info-circle"></i>
+                @Html.ActionLink("Detalles", "Detalles", new { id=item.id_Inq}) |
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.id_Inq}, new { onclick = "return confirm('Eliminar Inquilino: " + @item.nombre_Inq + "?')" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<h1> Search</h1>
+
+    <input id="txt" type="text" placeholder="Buscar...">
+    <select id="lista_dinamica"></select>
+    @* <br/>
+    <br/>
+    <table id="tbl" cellpadding="0" cellspacing="0">
+        <tr>
+            <th style="width: 90px">ID</th>
+            <th style="width: 120px">Nombre</th>
+            <th style="width: 90px">E-mail</th>
+            <th style="width: 90px">Domicilio</th>
+        </tr>
+    </table> *@
+
+ 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        $(()=> {
+            Buscar();
+            $("#txt").keyup(()=> {
+                Buscar();
+            });
+        });
+
+        const Buscar = ()=> {
+            let Name = $.trim($("#txt").val());
+            if(Name !== null && Name !== "" && Name.length !== 0){
+
+                console.log('OK')
+                console.log(Name)
+                let url="/Inquilinos/Search";
+                let data={Name: Name}
+
+                $.post(url,data).done((res)=> {
+                        console.log(res)
+                        @* var table = $("#tbl");
+                        table.find("tr:not(:first)").remove(); *@
+
+                        let select = $("#lista_dinamica");
+                        select.find("option").remove().end();
+
+                        $.each(res, (i, R)=> {
+                            @* .append(
+                            '<option value = "gfg">GeeksForGeeks</option>'); *@
+                            select.append($("<option>").val(R.id_Inq).text(R.nombre_Inq));
+
+                            @* var table = $("#tbl");
+                            var row = table[0].insertRow(-1);
+                            $(row).append("<td />");
+                            $(row).find("td").eq(0).html(R.id_Inq);
+                            $(row).append("<td />");
+                            $(row).find("td").eq(1).html(R.nombre_Inq);
+                            $(row).append("<td />");
+                            $(row).find("td").eq(2).html(R.email);
+                            $(row).append("<td />");
+                            $(row).find("td").eq(3).html(R.dom_Inq); *@
+                        });
+                    });
+            }
+
+            
+        }
+    </script>
+
+<p>
+    <a asp-action="Alta" class="btn btn-primary">Crear Inquilino</a>
+</p>
+ }

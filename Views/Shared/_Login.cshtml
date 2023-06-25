@@ -1,0 +1,32 @@
+﻿@model InmobiliariaVaras.Models.LoginView
+
+
+
+<div class="log-bg login-container text-c animated flipInX">
+                <div>
+                    <h1 class="logo-badge text-whitesmoke"><span class="fa fa-user-circle"></span></h1>
+                </div>
+                    <h3 class="text-whitesmoke">Login - Inmobiliaria Varas</h3>
+                <div class="container-content">
+                    <form asp-controller="Usuarios" asp-action="Login" class="margin-t">
+						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+							<p class="text-whitesmoke">Usuario</p>
+							<input asp-for="usuario" class="form-control"/>
+							<span asp-validation-for="usuario" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+							<p class="text-whitesmoke">Contraseña</p>
+							<input asp-for="contraseña" class="form-control" placeholder="***" />
+							<span asp-validation-for="contraseña" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="form-button button-l margin-b">Ingresar</button>        
+                        <a class="text-darkyellow"  asp-area="" asp-controller="Usuarios" asp-action="RecuperaPass"><small>olvidaste tu contraseña?</small></a>
+                    </form>
+                </div>
+            </div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

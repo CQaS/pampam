@@ -1,0 +1,40 @@
+﻿@model InmobiliariaVaras.Models.Pagos
+
+@{
+    ViewData["Title"] = "Editar";
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Editar Pagos</h1>
+
+<div class="container">
+    <div>
+        <form method="post" asp-action="Editar">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="id_Pagos" />
+            <div class="form-group">
+                <label for="num_Pago" class="control-label">Nro. Pago</label>
+                <input type="text" class="form-control" id="num_Pago" name="num_Pago" value="@Model.num_Pago">
+            </div>
+            <div class="form-group">
+                <label asp-for="fecha" class="control-label">Fecha Inicio</label>
+                <input asp-for="fecha" class="form-control" />
+                <span asp-validation-for="fecha" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="importe" class="control-label">Importe</label>
+                <input type="text" class="form-control" id="importe" name="importe" value="@Model.importe">
+            </div>
+            <br>
+            <input type="submit" value="Confirmar" class="btn btn-primary" />
+            <a asp-action="PorContrato" asp-controller="Pagos" asp-route-id="@Model.num_Pago" title="Pago" class="btn btn-secondary">Volver</a>
+        </form>
+    </div>
+</div>
+ }

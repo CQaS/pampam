@@ -1,0 +1,49 @@
+﻿@model InmobiliariaVaras.Models.Contratos
+
+@{
+    ViewData["Title"] = "Altas";
+    List<Contratos> contratos = ViewData[nameof(Contratos)] as List<Contratos>;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Abonar un Contrato</h1>
+
+<div class="container">
+    <div>
+        <form method="post" asp-action="Alta">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>            
+            <div class="form-group">
+                <label for="num_Pago" class="control-label">Nro. Pago</label>
+                <input type="text" class="form-control" id="num_Pago" name="num_Pago">
+            </div>
+            <div class="form-group">
+                <label for="fecha" class="control-label">Fecha</label>
+                <input type="date" class="form-control" id="fecha" name="fecha">
+            </div>
+            <div class="form-group">
+                <label for="importe" class="control-label">Importe</label>
+                <input type="text" class="form-control" id="importe" name="importe">
+            </div>
+            <div>
+                <label for="id_Prop" class="control-label">Seleccione Contrato para Abonar</label>
+                <select class="form-control" name="contrato_Id">
+                    @foreach (var item in contratos) {
+
+                        <option value="@item.id_Cont">@item.id_Cont @item.Inmuebles.dom_Inm</option>                        
+                    }
+
+                </select>
+            </div>
+            <br>
+            <input type="submit" value="Confirmar" class="btn btn-primary" />
+            <a asp-action="index" asp-controller="Pagos" asp-route-id="@ViewBag.cont_Id" title="Pagos" class="btn btn-secondary">Volver</a>
+        </form>
+    </div>
+</div>
+ }

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<InmobiliariaVaras.Models.Usuarios>
+
+@{
+    ViewData["Title"] = "Usuarios";
+    List<Usuarios> usuarios = ViewData[nameof(Usuarios)] as List<Usuarios>;
+}
+
+@if(!User.Identity.IsAuthenticated)
+{
+     await Html.RenderPartialAsync("_Login", new LoginView());
+}
+else
+{
+
+<h1>Usuarios Actuales</h1>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id_Us)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.apellido)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.avatar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.rol)
+            </th>
+            <th>
+                
+                    <a asp-action="Alta" class="btn btn-primary">Crear Usuario <span class="fa fa-user-plus"></span></a>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in usuarios)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id_Us)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    <img width="32" src="@item.avatar" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.rol)
+                </td>
+                <td>
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=item.id_Us}) |
+
+                @if(ViewContext.HttpContext.User.IsInRole("Administrador"))
+                {
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Eliminar", "Borrar", new { id=item.id_Us}, new { onclick = "return confirm('Eliminar Usuario: " + @item.apellido + "?')" })
+                }
+            </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Alta" class="btn btn-primary">Crear Usuario <span class="fa fa-user-plus"></span></a>
+</p>
+}

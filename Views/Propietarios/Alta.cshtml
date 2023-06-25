@@ -1,0 +1,40 @@
+@model InmobiliariaVaras.Models.Propietarios
+@{
+    ViewData["Title"] = "Altas";
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+else
+{
+
+<h1>Alta Propietarios</h1> <!--Ingresa un Prop-->
+
+<div class="container">
+    <div>
+        <form method="post" asp-action="Alta">
+            <div class="form-group">
+                <label for="dni_id" class="control-label">DNI</label>
+                <input type="text" class="form-control" id="dni" name="dni" placeholder="DNI">
+            </div>
+            <div class="form-group">
+                <label for="name_id" class="control-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+            </div>
+           
+            <div class="form-group">
+                <label for="dire" class="control-label">Domicilio</label>
+                <input type="text" class="form-control" id="dom_Prop" name="dom_Prop" placeholder="Domicilio">
+            </div>
+            <div class="form-group">
+                <label for="dire" class="control-label">Teléfono Propietario</label>
+                <input type="text" class="form-control" id="tel" name="tel" placeholder="Teléfono Propietario">
+            </div>
+            
+            <input type="submit" value="Confirmar" />
+        </form>
+    </div>
+</div>
+}

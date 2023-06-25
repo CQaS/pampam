@@ -1,0 +1,84 @@
+@model InmobiliariaVaras.Models.Inquilinos
+@{
+    ViewData["Title"] = "Detalles de Inquilino";
+    int id = Model.id_Inq;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Detalle de Inquilino: @Model.nombre_Inq</h1> <!--Muestra los detalles de UN Inquilino-->
+
+
+<div class="container">
+    <div>
+    <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.dni_Inq)
+                </th>
+                <td>
+                    @Model.dni_Inq
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.nombre_Inq)
+                </th>
+                <td>
+                    @Model.nombre_Inq
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.email)
+                </th>
+                <td>
+                    @Model.email
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.dom_Inq)
+                </th>
+                <td>
+                    @Model.dom_Inq
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Nombre Garante
+                </th>
+                <td>
+                    @Model.nombre_Garante
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    Teléfono Garante
+                </th>
+                <td>
+                    @Model.tel_Garante
+                </td>
+            </tr>
+            <tr> 
+                <td>
+                    <i class="fa fa-edit"></i>
+                    @Html.ActionLink("Editar", "Editar", new { id=Model.id_Inq}) |
+                    <i class="fa fa-trash"></i>
+                    @Html.ActionLink("Eliminar", "Delete", new { id=Model.id_Inq}, new { onclik = "return confirm('Eliminar Inquilino: " + @Model.nombre_Inq + "?')"})
+
+
+                </td>
+            </tr>
+    </table> 
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+ }

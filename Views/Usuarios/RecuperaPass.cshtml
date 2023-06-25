@@ -1,0 +1,47 @@
+﻿@model InmobiliariaVaras.Models.LoginView
+@{
+    ViewData["Title"] = "Recuperar Password";
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/css/util.css">
+<link rel="stylesheet" type="text/css" href="~/css/main.css">
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <div class="login100-pic js-tilt" data-tilt>
+                <img src="~/img/img-01.webp" alt="IMG">
+            </div>
+            <form class="login100-form validate-form" asp-controller="Usuarios" asp-action="Login">
+                <span class="login100-form-title">
+                    Recuperar Contraseña
+                </span>
+                <div class="wrap-input100 validate-input" data-validate="Email es requeredo: ex@abc.xyz">
+                    <input asp-for="usuario" class="input100" type="text" placeholder="Email">
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Pregunta es requereda">
+                    <input asp-for="pregunta" class="input100" type="text" placeholder="Pregunta secreta">
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="wrap-input100 validate-input" data-validate="Password es requerido">
+                    <input asp-for="contraseña" class="input100" type="password" placeholder="Nuevo Password">
+                    <span class="focus-input100"></span>
+                </div>
+                <div class="container-login100-form-btn">
+                    <input type="submit" value="Recuperar" class="login100-form-btn">
+                </div>
+                <div class="text-center p-t-12">
+                    <span class="txt1">
+                        Recuerdas tu
+                    </span>
+                    <a class="txt2" asp-controller="Home" asp-action="Index">
+                        Email / Password?
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+

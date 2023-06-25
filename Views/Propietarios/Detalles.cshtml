@@ -1,0 +1,110 @@
+@model InmobiliariaVaras.Models.Propietarios
+@{
+    ViewData["Title"] = "Detalles de Propietario";
+    List<Inmuebles> inmuebles = ViewData[nameof(Inmuebles)] as List<Inmuebles>;
+    int id = Model.id_Prop;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+<h1>Detalle de Propietario: @Model.nombre</h1> <!--Muestra los detalles de UN Prop-->
+
+
+<div class="container">
+    <div>
+       <table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.dni)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dom_Prop)
+            </th>
+              <th>
+                @Html.DisplayNameFor(model => model.tel)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Model.dni
+            </td>
+            <td>
+                @Model.nombre
+            </td>
+            
+            <td>
+                @Model.dom_Prop
+            </td>
+           
+            <td>
+                @Model.tel
+            </td>
+            <td>
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=Model.id_Prop}) |
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Eliminar", "Delete", new { id=Model.id_Prop}, new { onclick = "return confirm('Eliminar Propietario: " + @Model.nombre + "?')" })
+
+            </td>
+        </tr>
+    </tbody>
+    </table>
+
+    <h1>Inmuebles del Propietario</h1>
+
+<table class="table" style="margin-bottom:45px">
+    <thead class="thead-dark">
+        <tr align="center">
+            <th>
+                Direccion
+            </th>
+            <th>
+                Fotos
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in inmuebles) {
+        <tr align="center">
+            <td>
+                <h2>
+                    @Html.DisplayFor(modelItem => item.dom_Inm) |
+                </h2>
+                <h4>
+                    <i class="fa fa-info-circle"></i>
+                    @Html.ActionLink("Detalles", "Detalles", "Inmuebles", new { id=item.id_Inm})
+                </h4>
+            </td>
+            <td>
+                @if (item.imagen != "")
+                {
+                    <img src="@item.imagen" height="100" width="100" style="border-radius: 40px; margin: 20px 0 0 10px;border: 2px solid #fff;"/> 
+                }
+                else
+                {
+                    <p>Sin Foto Disponible</p>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+ }

@@ -1,0 +1,92 @@
+﻿@model InmobiliariaVaras.Models.Contratos
+
+@{
+    ViewData["Title"] = "Detalles del Contrato";
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Detalles del Contrato del Inmueble</h1>
+
+<div class="container">
+    <div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id_Cont)
+            </th>
+            <td>
+                @Model.id_Cont
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha_In)
+            </th>
+            <td>
+                @Model.fecha_In
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha_Fin)
+            </th>
+            <td>
+                @Model.fecha_Fin
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.valor)
+            </th>
+            <td>
+                U$D @Model.valor
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Inquilinos.nombre_Inq)
+            </th>
+            <td>
+                @ViewBag.Inquilinos.nombre_Inq
+            </td>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Inmuebles.dom_Inm)
+            </th>
+            <td>
+                @ViewBag.Inmuebles.dom_Inm
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <i class="fa fa-history"></i>
+                @Html.ActionLink("Ver pagos", "PorContrato", "Pagos", new { id=Model.id_Cont}) |
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=Model.id_Cont}) |
+
+                @if(ViewContext.HttpContext.User.IsInRole("Administrador"))
+                {
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Cancelar", "Delete", new { id=Model.id_Cont}, new { onclick = "return confirm('Cancelar el Contrato ?')" })
+                }
+            </td>
+        </tr>
+    </table> 
+    </div>
+    <br>
+    <div>
+        <big><big>
+        <i class="fa fa-usd"></i>
+        @Html.ActionLink("Pagar", "Pagar", "Pagos",new { id=Model.id_Cont})
+        </big></big>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+ }

@@ -1,0 +1,61 @@
+@model InmobiliariaVaras.Models.Inquilinos
+
+@{
+    ViewData["Title"] = "Editar";
+    int id = Model.id_Inq;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+<h1>Editar Inquilino: @Model.nombre_Inq</h1> <!--muestro los datos de UN inquilino para modificar-->
+
+
+<div class="container">
+    <div>
+        <form method="post" asp-action="Editar">
+            <input type="hidden" asp-for="id_Inq" />
+            <div class="form-group">
+                <label for="dni_id" class="control-label">DNI</label>
+                <input type="text" class="form-control" id="dni_Inq" name="dni_Inq" value="@Model.dni_Inq">
+            </div>
+            <div class="form-group">
+                <label for="name_id" class="control-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre_Inq" name="nombre_Inq" value="@Model.nombre_Inq">
+            </div>
+            <div class="form-group">
+                <label for="email" class="control-label">Email</label>
+                <input type="text" class="form-control" id="email" name="email" value="@Model.email">
+            </div>
+            <div class="form-group">
+                <label for="dom_Inq" class="control-label">Domicilio</label>
+                <input type="text" class="form-control" id="dom_Inq" name="dom_Inq" value="@Model.dom_Inq">
+            </div>
+            <div class="form-group">
+                <label for="tel" class="control-label">Teléfono Inquilino</label>
+                <input type="text" class="form-control" id="tel_Inq" name="tel_Inq" value="@Model.tel_Inq">
+            </div>
+            <div class="form-group">
+                <label for="trabajo" class="control-label">Domicilio Laboral</label>
+                <input type="text" class="form-control" id="domicilio_Lab" name="domicilio_Lab" value="@Model.domicilio_Lab">
+            </div>
+            <div class="form-group">
+                <label for="dire" class="control-label">Nombre del Garante</label>
+                <input type="text" class="form-control" id="nombre_Garante" name="nombre_Garante" value="@Model.nombre_Garante">
+            </div>
+            <div class="form-group">
+                <label for="dire" class="control-label">DNI del Garante </label>
+                <input type="text" class="form-control" id="dni_Garante" name="dni_Garante" value="@Model.dni_Garante">
+            </div>
+            <div class="form-group">
+                <label for="dire" class="control-label">Teléfono Garante</label>
+                <input type="text" class="form-control" id="tel_Garante" name="tel_Garante" value="@Model.tel_Garante">
+            </div>
+            <input type="submit" value="Confirmar" />
+        </form>
+    </div>
+</div>
+ }

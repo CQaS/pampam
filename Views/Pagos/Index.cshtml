@@ -1,0 +1,81 @@
+﻿@model IEnumerable<InmobiliariaVaras.Models.Pagos>
+@{
+    ViewData["Title"] = "Index Pagos";
+    List<Pagos> pagos = ViewData[nameof(Pagos)] as List<Pagos>;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Pagos de Contratos</h1>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                Nombre del Inquilino
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.num_Pago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.importe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.contrato_id)
+            </th>
+            <th>
+                
+                    <a asp-action="Alta" class="btn btn-primary"> Abonar Contrato</a>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in pagos)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.inquilinos.nombre_Inq)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.num_Pago)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.importe)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.contrato_id)                    
+                    @Html.ActionLink(": Planilla de Pagos", "PorContrato", new { id=item.contrato_id})
+                    <i class="fa fa-history"></i>
+                </td>
+                <td>
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=item.id_Pagos}) |
+
+                @if(ViewContext.HttpContext.User.IsInRole("Administrador"))
+                {
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.id_Pagos}, new { onclick = "return confirm('Eliminar Pago?')" })
+                }
+                
+            </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Alta" class="btn btn-primary">Abonar un Contrato</a>
+</p>
+ }

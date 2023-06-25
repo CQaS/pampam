@@ -1,0 +1,73 @@
+﻿@model InmobiliariaVaras.Models.Inmuebles
+
+@{
+    ViewData["Title"] = "Editar";
+    int id = Model.id_Inm;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+
+<h1>Editar Inmueble de: 
+    @foreach (var item in (IList<Propietarios>)ViewBag.Propietarios)
+    {
+        if(item.id_Prop == Model.prop_Id){ 
+            @Html.DisplayFor(modelItem => item.nombre) }
+    }
+</h1>
+
+<div class="container">
+    <div>
+        <form method="post" asp-action="Editar" enctype="multipart/form-data">
+            <input type="hidden" asp-for="id_Inm" />
+            <div class="form-group">
+                <label for="domicilio" class="control-label">Domicilio</label>
+                <input type="text" class="form-control" id="dom_Inm" name="dom_Inm" value="@Model.dom_Inm">
+            </div>
+            <div class="form-group">
+                <label for="uso" class="control-label">uso</label>
+                <input type="text" class="form-control" id="uso" name="uso" value="@Model.uso">
+            </div>
+            <div class="form-group">
+                <label for="tipo" class="control-label">tipo</label>
+                <input type="text" class="form-control" id="tipo" name="tipo" value="@Model.tipo">
+            </div>
+            <div class="form-group">
+                <label for="ambientes" class="control-label">Ambientes</label>
+                <input type="text" class="form-control" id="ambientes" name="ambientes" value="@Model.ambientes">
+            </div>
+            <div class="form-group">
+                <label for="precio" class="control-label">Precio</label>
+                <input type="text" class="form-control" id="precio" name="precio" value="@Model.precio">
+            </div>
+            <div>
+                <label class="control-label">Propietarios</label>
+                <select class="form-control" name="prop_Id">
+                    @foreach (var item in (IList<Propietarios>)ViewBag.Propietarios)
+                    {
+                        @:<option @(item.id_Prop == Model.prop_Id ? "Selected" : "") value="@item.id_Prop">@(item.nombre)</option>
+                    }
+                </select>
+                <span asp-validation-for="prop_Id" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group">
+                <label asp-for="imagenFile" class="control-label"></label>
+                <input type="file" name="imagenFile" />
+                <span asp-validation-for="imagenFile" class="text-danger"></span>
+            </div>
+            
+            <br>
+            <input type="submit" value="Confirmar" />
+        </form>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+ }

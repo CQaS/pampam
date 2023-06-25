@@ -1,0 +1,41 @@
+@model InmobiliariaVaras.Models.Propietarios
+
+@{
+    ViewData["Title"] = "Editar";
+    int id = Model.id_Prop;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+<h1>Editar Propietario: @Model.nombre</h1> <!--muestro los datos de UN propietario para modificar-->
+
+
+<div class="container">
+    <div>
+        <form method="post" asp-action="Editar">
+            <input type="hidden" asp-for="id_Prop" />
+            <div class="form-group">
+                <label for="dni_id" class="control-label">DNI</label>
+                <input type="text" class="form-control" id="dni" name="dni" value="@Model.dni">
+            </div>
+            <div class="form-group">
+                <label for="name_id" class="control-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" name="nombre" value="@Model.nombre">
+            </div>
+            <div class="form-group">
+                <label for="dom_Prop" class="control-label">Domicilio</label>
+                <input type="text" class="form-control" id="dom_Prop" name="dom_Prop" value="@Model.dom_Prop">
+            </div>
+            <div class="form-group">
+                <label for="tel" class="control-label">Teléfono Propietario</label>
+                <input type="text" class="form-control" id="tel" name="tel" value="@Model.tel">
+            </div>
+            <input type="submit" value="Confirmar" />
+        </form>
+    </div>
+</div>
+ }

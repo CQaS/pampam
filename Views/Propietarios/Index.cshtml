@@ -1,0 +1,65 @@
+@model IEnumerable<InmobiliariaVaras.Models.Propietarios>
+
+@{
+    ViewData["Title"] = "Index Propietarios";
+    List<Propietarios> Propietarios = ViewData[nameof(Propietarios)] as List<Propietarios>; 
+        // tabla con una lista de Prop
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+<h1> Propietarios Actuales</h1>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dom_Prop)
+            </th>    
+                   <th>
+                @Html.DisplayNameFor(model => model.tel)
+            </th> 
+            <th>
+                
+                    <a asp-action="Alta" class="btn btn-primary"> Crear Nuevo</a>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Propietarios) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.nombre)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.dom_Prop)
+            </td>
+             <th>
+                @Html.DisplayFor(model => item.tel)
+            </th> 
+            <td>
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", new { id=item.id_Prop}) |
+                <i class="fa fa-info-circle"></i>
+                @Html.ActionLink("Detalles", "Detalles", new { id=item.id_Prop}) |
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Eliminar", "Delete", new { id=item.id_Prop}, new { onclick = "return confirm('Eliminar Propietario: " + @item.nombre + "?')" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<p>
+    <a asp-action="Alta" class="btn btn-primary">Crear Propietario</a>
+</p>
+ }

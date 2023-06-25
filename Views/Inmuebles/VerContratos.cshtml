@@ -1,0 +1,67 @@
+﻿@model InmobiliariaVaras.Models.Contratos
+
+@{
+    ViewData["Title"] = "Contratos";
+    List<Contratos> contratos = ViewData[nameof(Contratos)] as List<Contratos>;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Contratos Vinculados al Inmueble</h1>
+
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                Fecha inicio
+            </th>
+            <th>
+                Fecha Fin
+            </th>
+            <th>
+                Nombre del Inquilino
+            </th> 
+            <th>
+                Direccion del Inmueble
+            </th>         
+            <th class="text-center">
+                
+                <a asp-action="Alta" asp-controller="Contratos" class="btn btn-primary"> Crear Contratos</a>
+                
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in contratos) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_In)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fecha_Fin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inquilinos.nombre_Inq)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Inmuebles.dom_Inm)
+            </td>
+            <td>
+                <i class="fa fa-edit"></i>
+                @Html.ActionLink("Editar", "Editar", "Contratos", new { id=item.id_Cont}) |
+                <i class="fa fa-trash"></i>
+                @Html.ActionLink("Cancelar", "Delete", "Contratos", new { id=item.id_Cont}, new { onclick = "return confirm('Cancelar el Contrato de: " + @item.Inquilinos.nombre_Inq + "?')" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</div>
+ }

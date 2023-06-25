@@ -1,0 +1,66 @@
+﻿@model InmobiliariaVaras.Models.Inmuebles
+
+@{
+    ViewData["Title"] = "Altas";
+    List<Propietarios> propietarios = ViewData[nameof(Propietarios)] as List<Propietarios>;
+}
+
+@if(!User.Identity.IsAuthenticated)
+ {
+     await Html.RenderPartialAsync("_Login", new LoginView());
+ }
+ else
+ {
+
+<h1>Altas de Inmuebles</h1>
+
+<div class="container">
+    <div>
+        <form method="post" asp-action="Alta" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="dom_Inm" class="control-label">Domicilio</label>
+                <input type="text" class="form-control" id="dom_Inm" name="dom_Inm" placeholder="domicilio">
+            </div>
+            <div class="form-group">
+                <label for="uso" class="control-label">uso</label>
+                <input type="text" class="form-control" id="uso" name="uso" placeholder="Uso del Inmueble">
+            </div>
+            <div class="form-group">
+                <label for="tipo" class="control-label">Tipo</label>
+                <input type="text" class="form-control" id="tipo" name="tipo" placeholder="Tipo de Inmueble">
+            </div>
+            <div class="form-group">
+                <label for="precio" class="control-label">Precio</label>
+                <input type="text" class="form-control" id="precio" name="precio" placeholder="Precio$$">
+            </div>
+            <div class="form-group">
+                <label for="Ambientes" class="control-label">Ambientes del Inmueble</label>
+                <input type="text" class="form-control" id="ambientes" name="ambientes" placeholder="Cantidad de ambientes">
+            </div>
+            <div>
+                <label for="prop_Id" class="control-label">Propietarios</label>
+                <select class="form-control" name="prop_Id">
+                    @foreach (var item in propietarios) 
+                    {
+
+                        <option value="@item.id_Prop">@(item.nombre)</option>                        
+                    }
+
+                </select>
+            </div>
+            <br>
+            <div class="form-group">
+                <label asp-for="imagenFile" class="control-label"></label>
+                <input type="file" name="imagenFile" />
+                <span asp-validation-for="imagenFile" class="text-danger"></span>
+            </div>
+            <br>
+            <input type="submit" value="Confirmar" />
+        </form>
+    </div>
+    <br>
+    <div>
+        <a asp-action="Index" class="btn btn-secondary">Volver</a>
+    </div>
+</div>
+ }
